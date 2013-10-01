@@ -1,6 +1,7 @@
 // Valtteri Ahonen
 // Harjoitus 11
 // 1.10.2013
+// Versio 2.0, korjattu nollalla jakaminen
 
 #include <iostream>
 using namespace std;
@@ -12,53 +13,80 @@ int main()
 	cin >> luku1 >> luku2;
 
 	int valinta;
-	bool lippu; // valikon toistamista varten
-
-	cout << endl << "VALIKKO:" << endl;
-	cout << "1: Summa" << endl;
-	cout << "2: Erotus" << endl;
-	cout << "3: Tulo" << endl;
-	cout << "4: Osam„„r„" << endl;
-	cout << "5: Jakoj„„nn”s" << endl;
-	cout << "6: Syötä uusi luku" << endl;
+	bool lippu = true; // valikon toistamista varten (toistetaan kunnes saa arvon false)
 
 	do{
 
-		lippu = false; // jos valinta on validi, niin false-arvolla valinta ei toistu
-
-		cout << endl;
-		cin >> ws >> valinta;
-		cout << endl;
-
-		switch(valinta)
+		if(luku2 == 0)			// Tämä valikko näytetään, jos toiseksi luvuksi on valittu nolla
 		{
-		case 1: cout << luku1 + luku2;
-			break;
-		case 2: cout << luku1 - luku2;
-			break;
-		case 3: cout << luku1 * luku2;
-			break;
-		case 4: cout << luku1 / luku2;
-			break;
-		case 5: cout << luku1 % luku2;
-			break;
-		case 6: cout << "Anna uudet luvut." << endl;
-			cin >> luku1 >> luku2;
-			lippu = true; // true-arvolla valinta (eli valikko) toistetaan
-			cout << endl << "VALIKKO:" << endl;
+			cout << endl << endl << "VALIKKO:" << endl;
+			cout << "0: Lopetus" << endl;
+			cout << "1: Summa" << endl;
+			cout << "2: Erotus" << endl;
+			cout << "3: Tulo" << endl;
+			cout << "4: Sy”t„ uusi luku" << endl;
+		}
+		else				//Tämä valikko näytetään, mikäli toinen luku EI ole nolla
+		{
+			cout << endl << endl << "VALIKKO:" << endl;
+			cout << "0: Lopetus" << endl;
 			cout << "1: Summa" << endl;
 			cout << "2: Erotus" << endl;
 			cout << "3: Tulo" << endl;
 			cout << "4: Osam„„r„" << endl;
 			cout << "5: Jakoj„„nn”s" << endl;
-			cout << "6: Syötä uusi luku" << endl;
-			break;
-		default: cout << "Tee uusi valinta n00b."; 
-			lippu = true; // true-arvolla valinta toistetaan
-			break;
+			cout << "6: Sy”t„ uusi luku" << endl;		
 		}
 
-	}while(lippu); // valintaa toistetaan, kunnes valinta on 1-6
+		cin >> ws >> valinta; 
+		cout << endl;
 
-	cout << endl << endl;
-}
+		if(luku2) // Alla olevat vaihtoehdot hyväksytää, mikäli toinen luku ei ole nolla
+		{
+			switch(valinta)
+			{
+			case 0: 
+				lippu = false; // kun lippu on false, poistutaan loopista
+				break;
+			case 1: cout << luku1 + luku2;
+				break;
+			case 2: cout << luku1 - luku2;
+				break;
+			case 3: cout << luku1 * luku2;
+				break;
+			case 4: cout << (float)luku1 / (float)luku2;
+					break;
+			case 5: cout << luku1 % luku2;
+					break;
+			case 6: cout << "Anna uudet luvut." << endl;
+				cin >> luku1 >> luku2;
+				break;
+			default: cout << "Tee uusi valinta."; 
+				break;
+			}
+		}
+		else // Alla olevat vaihtoehdot hyväksytään, JOS toinen luku ON nolla
+		{
+			switch(valinta)
+			{
+			case 0: 
+				lippu = false; // kun lippu on false, poistutaan loopista
+				break;
+			case 1: cout << luku1 + luku2;
+				break;
+			case 2: cout << luku1 - luku2;
+				break;
+			case 3: cout << luku1 * luku2;
+				break;
+			case 4: cout << "Anna uudet luvut." << endl;
+				cin >> luku1 >> luku2;
+				break;
+			default: cout << "Tee uusi valinta."; 
+				break;
+			}
+		}
+
+		}while(lippu); // valikkoa toistetaan, kunnes lippu on false, eli valinta on 0
+
+		cout << endl;
+	}
